@@ -4,6 +4,7 @@ namespace Bynder\Api;
 use Bynder\Api\Impl\AssetBankManager;
 use Bynder\Api\Impl\OAuth2;
 use Bynder\Api\Impl\PermanentTokens;
+use Bynder\Api\Impl\WebhookManager;
 
 class BynderClient
 {
@@ -36,6 +37,11 @@ class BynderClient
     }
 
     /**
+     * @var WebhookManager instance used for all Webhook related operations.
+     */
+    private $webhookManager;
+
+    /**
      * Gets an instance of the asset bank manager to use for DAM queries.
      *
      * @return AssetBankManager An instance of the asset bank manager using the request handler previously created.
@@ -47,6 +53,20 @@ class BynderClient
         }
 
         return $this->assetBankManager;
+    }
+
+    /**
+     * Gets an instance of the webhook manager.
+     *
+     * @return WebhookManager An instance of the webhook manager using the request handler previously created.
+     */
+    public function getWebhookManager()
+    {
+        if(!isset($this->webhookManager)) {
+            $this->webhookManager = new WebhookManager($this->requestHandler);
+        }
+
+        return $this->webhookManager;
     }
 
     /**
