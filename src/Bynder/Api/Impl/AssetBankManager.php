@@ -368,6 +368,28 @@ class AssetBankManager
     }
 
     /**
+     * Add metaproperty options to an existing asset.
+     *
+     * @link http://docs.bynder.apiary.io/#reference/assets/similar-assets-operations/add-metaproperty-options
+     *
+     * @param  string  $mediaId The Bynder media identifier (Asset id).
+     * @param  string  $metapropertyId The Bynder metaproperty id.
+     * @param  array  $optionIds  Options ids
+     * @return \GuzzleHttp\Promise\Promise
+     * @throws \GuzzleHttp\Exception\RequestException
+     */
+    public function addMetapropertyOptions($mediaId, $metapropertyId, array $optionIds)
+    {
+        return $this->requestHandler->sendRequestAsync('POST', 'api/media/options', [
+            'json' => [
+                'asset_id' => $mediaId,
+                'metaproperty_id' => $metapropertyId,
+                'metaproperty_option_ids' => $optionIds
+            ],
+        ]);
+    }
+
+    /**
      * Gets the download location for a specific asset with a specific version.
      *
      * @param  string  $mediaId The Bynder media identifier (Asset id)
