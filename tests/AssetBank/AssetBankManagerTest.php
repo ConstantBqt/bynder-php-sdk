@@ -942,4 +942,47 @@ class AssetBankManagerTest extends TestCase
         self::assertNotNull($collectionList);
         self::assertEquals($collectionList, $returnedCollections);
     }
+
+
+    /**
+     * Tests the addMetapropertyOptions function.
+     *
+     * @covers \Bynder\Api\Impl\AssetBankManager::addMetapropertyOptions()
+     * @throws \Exception
+     */
+    public function testAddMetapropertyOptions()
+    {
+        $stub = $this->getMockBuilder('Bynder\Api\Impl\OAuth2\RequestHandler')
+            ->disableOriginalConstructor()
+            ->getMock();
+
+        $queryData = [
+            'asset_id' => 'TEST_INTEGRATION_ID',
+            'metaproperty_id' => 'TEST_METAPROPERTY_ID',
+            'metaproperty_option_ids' => [
+                'TEST_OPTION_ID_1',
+                'TEST_OPTION_ID_2'
+            ]
+        ];
+
+        $stub->method('sendRequestAsync')
+            ->with('POST', 'api/media/options', [
+                'json' => $queryData,
+            ])
+            ->willReturn([
+                'message' => 'The options have been added'
+            ]);
+
+        $assetBankManager = new AssetBankManager($stub);
+        $result           = $assetBankManager->addMetapropertyOptions(
+            'TEST_INTEGRATION_ID',
+            'TEST_METAPROPERTY_ID',
+            ['TEST_OPTION_ID_1', 'TEST_OPTION_ID_2']
+        );
+
+        self::assertNotNull($result);
+        self::assertEquals($result, [
+            'message' => 'The options have been added'
+        ]);
+    }
 }
