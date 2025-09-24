@@ -260,6 +260,23 @@ class AssetBankManager
     }
 
     /**
+     * Creates a dependency between two metaproperty options.
+     *
+     * @param string $metaPropId
+     * @param string $optionId
+     * @param string $dependencyId
+     * @return \GuzzleHttp\Promise\Promise
+     * @throws \GuzzleHttp\Exception\RequestException
+     */
+    public function createMetaPropertyOptionDependency($metaPropId, $optionId, $dependencyId)
+    {
+        return $this->requestHandler->sendRequestAsync(
+            'POST',
+            sprintf('api/v4/metaproperties/%s/options/%s/dependencies/%s/', $metaPropId, $optionId, $dependencyId)
+        );
+    }
+
+    /**
      * Retrieves a list of all tags available.
      *
      * @param  array  $query

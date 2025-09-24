@@ -985,4 +985,35 @@ class AssetBankManagerTest extends TestCase
             'message' => 'The options have been added'
         ]);
     }
+
+    /**
+     * Tests the createMetaPropertyOptionDependency function.
+     *
+     * @covers \Bynder\Api\Impl\AssetBankManager::createMetaPropertyOptionDependency()
+     * @throws \Exception
+     */
+    public function testCreateMetaPropertyOptionDependency()
+    {
+        $stub = $this->getMockBuilder('Bynder\Api\Impl\OAuth2\RequestHandler')
+            ->disableOriginalConstructor()
+            ->getMock();
+
+        $stub->method('sendRequestAsync')
+            ->with('POST', 'api/v4/metaproperties/TEST_METAPROPERTY_ID/options/TEST_OPTION_ID_1/dependencies/TEST_OPTION_ID_2/')
+            ->willReturn([
+                'message' => 'Created'
+            ]);
+
+        $assetBankManager = new AssetBankManager($stub);
+        $result           = $assetBankManager->createMetaPropertyOptionDependency(
+            'TEST_METAPROPERTY_ID',
+            'TEST_OPTION_ID_1',
+            'TEST_OPTION_ID_2'
+        );
+
+        self::assertNotNull($result);
+        self::assertEquals($result, [
+            'message' => 'Created'
+        ]);
+    }
 }
