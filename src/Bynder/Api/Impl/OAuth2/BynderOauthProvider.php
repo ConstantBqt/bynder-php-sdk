@@ -163,7 +163,7 @@ class BynderOauthProvider extends AbstractProvider
     {
         if ($response->getStatusCode() >= 400) {
             throw new IdentityProviderException(
-                $data['error'] ?: $response->getReasonPhrase(),
+                is_array($data) && isset($data['error']) ? $data['error'] : $response->getReasonPhrase(),
                 $response->getStatusCode(),
                 $response
             );
