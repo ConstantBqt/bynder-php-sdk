@@ -3,6 +3,7 @@ namespace Bynder\Api\Impl\OAuth2;
 
 use League\OAuth2\Client\Provider\AbstractProvider;
 use League\OAuth2\Client\Provider\Exception\IdentityProviderException;
+use League\OAuth2\Client\Provider\ResourceOwnerInterface;
 use League\OAuth2\Client\Token\AccessToken;
 use League\OAuth2\Client\Tool\BearerAuthorizationTrait;
 use Psr\Http\Message\ResponseInterface;
@@ -159,7 +160,7 @@ class BynderOauthProvider extends AbstractProvider
      *
      * @throws IdentityProviderException
      */
-    protected function checkResponse(ResponseInterface $response, $data)
+    protected function checkResponse(ResponseInterface $response, $data): void
     {
         if ($response->getStatusCode() >= 400) {
             throw new IdentityProviderException(
@@ -174,7 +175,7 @@ class BynderOauthProvider extends AbstractProvider
      * Returns the URL for requesting the resource owner's details.
      * Function is necessary since it's abstract in the parent.
      */
-    public function getResourceOwnerDetailsUrl(AccessToken $token)
+    public function getResourceOwnerDetailsUrl(AccessToken $token): string
     {
         return parent::getResourceOwnerDetailsUrl($token);
     }
@@ -183,7 +184,7 @@ class BynderOauthProvider extends AbstractProvider
      * owner details request. Function is necessary since it's abstract
      * in the parent.
      */
-    protected function createResourceOwner(array $response, AccessToken $token)
+    protected function createResourceOwner(array $response, AccessToken $token): ResourceOwnerInterface
     {
         return parent::createResourceOwner($response, $token);
     }
